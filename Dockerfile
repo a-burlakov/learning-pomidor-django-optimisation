@@ -7,7 +7,7 @@ WORKDIR /service
 EXPOSE 8000
 
 #RUN - это сразу запустить команду
-RUN pip install - r /temp/requirements.txt
+RUN pip install -r /temp/requirements.txt
 
 RUN adduser --disabled-password service-user
 
