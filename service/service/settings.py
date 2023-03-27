@@ -80,9 +80,12 @@ DATABASES = {
         "HOST": os.environ.get("DB_HOST"),
         "NAME": os.environ.get("DB_NAME"),
         "USER": os.environ.get("DB_USER"),
-        "PASS": os.environ.get("DB_PASS"),
+        "PASSWORD": os.environ.get("DB_PASS"),
     }
 }
+
+print(DATABASES)
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
