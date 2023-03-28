@@ -6,3 +6,6 @@ class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, verbose_name="Клиент")
     company_name = models.CharField("Компания", max_length=255)
     full_address = models.CharField("Адрес", max_length=1024)
+
+    def __str__(self):
+        return f"{self.user.username} ({self.company_name})"

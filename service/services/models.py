@@ -33,6 +33,9 @@ class Plan(models.Model):
         ],
     )
 
+    def __str__(self):
+        return f"{self.plan_type} (disc. {self.discount_percent}%)"
+
 
 class Subscription(models.Model):
     """
@@ -47,6 +50,13 @@ class Subscription(models.Model):
     )
     service = models.ForeignKey(
         Service,
+        verbose_name="Сервис",
+        related_name="subscriptions",
+        on_delete=models.PROTECT,
+    )
+    plan = models.ForeignKey(
+        Plan,
+        verbose_name="Тарифный план",
         related_name="subscriptions",
         on_delete=models.PROTECT,
     )
