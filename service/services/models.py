@@ -60,3 +60,7 @@ class Subscription(models.Model):
         related_name="subscriptions",
         on_delete=models.PROTECT,
     )
+    price = models.PositiveIntegerField("Цена", default=0)
+
+    def save(self, *args, **kwargs):
+        pass
