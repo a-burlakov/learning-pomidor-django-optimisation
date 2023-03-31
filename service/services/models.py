@@ -12,6 +12,19 @@ class Service(models.Model):
     name = models.CharField("Наименование", max_length=255)
     full_price = models.PositiveIntegerField("Цена")
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__full_price = self.full_price
+
+    def save(self, *args, save_model=True, **kwargs):
+        from services.tasks import set_price
+
+        if self.full_price != self.__full_price:
+            for subscription in self.subscriptions.all():
+                set_price.delay(subscription.id)
+
+        return super().save(*args, **kwargs)
+
 
 class Plan(models.Model):
     """
@@ -35,6 +48,19 @@ class Plan(models.Model):
 
     def __str__(self):
         return f"{self.plan_type} (disc. {self.discount_percent}%)"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__discount_percent = self.discount_percent
+
+    def save(self, *args, save_model=True, **kwargs):
+        from services.tasks import set_price
+
+        if self.discount_percent != self.__discount_percent:
+            for subscription in self.subscriptions.all():
+                set_price.delay(subscription.id)
+
+        return super().save(*args, **kwargs)
 
 
 class Subscription(models.Model):
@@ -61,6 +87,3 @@ class Subscription(models.Model):
         on_delete=models.PROTECT,
     )
     price = models.PositiveIntegerField("Цена", default=0)
-
-    def save(self, *args, **kwargs):
-        pass
