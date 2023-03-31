@@ -87,3 +87,4 @@ class Subscription(models.Model):
         on_delete=models.PROTECT,
     )
     price = models.PositiveIntegerField("Цена", default=0)
+    comment = models.CharField("Комментарий", max_length=255)
