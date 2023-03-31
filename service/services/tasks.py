@@ -1,11 +1,17 @@
+import time
+
 from celery import shared_task
+from celery_singleton import singleton
 from django.db.models import F
 
 from services.models import Subscription
 
 
-@shared_task
+@shared_task(base=singleton)
 def set_price(subscription_id):
+
+    time.sleep(5)
+
     subscription = (
         Subscription.objects.filter(id=subscription_id)
         .annotate(
